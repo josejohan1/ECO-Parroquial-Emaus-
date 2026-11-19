@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ECO Parroquial</title>
+<style>
+:root{--bg:#f7f4ee;--card:#fff;--text:#2a2420;--muted:#7a6f66;--line:#e6dfd3;--a:#8a5a2b;--b:#2f6f5e;--c:#b4472f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1815;--card:#26221e;--text:#f1ebe3;--muted:#a79c90;--line:#3a342e;--a:#d9a066;--b:#6fc2a9;--c:#ef8a72;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1b1815;--card:#26221e;--text:#f1ebe3;--muted:#a79c90;--line:#3a342e;--a:#d9a066;--b:#6fc2a9;--c:#ef8a72;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Georgia,"Times New Roman",serif;line-height:1.4}
+main{max-width:640px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.5rem;margin:0 0 4px}
+.sub{color:var(--muted);font-size:.9rem;margin:0 0 18px;font-family:system-ui,sans-serif}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+label{display:block;font:600 .8rem system-ui,sans-serif;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+input[type=date],input[type=text]{width:100%;font:1.1rem system-ui,sans-serif;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text)}
+.note{font:.8rem system-ui,sans-serif;color:var(--c);margin-top:8px;min-height:1em}
+.tag{font:700 .7rem system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.big{font-size:1.25rem;margin:4px 0}
+.days{font:.85rem system-ui,sans-serif;color:var(--muted)}
+.r1{border-left:6px solid var(--b)}.r1 .tag{color:var(--b)}
+.r2{border-left:6px solid var(--a)}.r2 .tag{color:var(--a)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.stat b{display:block;font-size:1.6rem}.stat span{font:.75rem system-ui,sans-serif;color:var(--muted)}
+ol{list-style:none;margin:0;padding:0}
+li{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+li:first-child{border-top:0}
+.n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--a);color:var(--bg);font:700 .85rem system-ui,sans-serif;display:grid;place-items:center}
+li.past{opacity:.45}
+li .d{flex:1}li .d small{display:block;font:.78rem system-ui,sans-serif;color:var(--muted)}
+h2{font-size:1rem;margin:0 0 6px}
+
+:root{--w:#fff3d1;--wt:#7a5600;--o:#fde3dd;--ot:#9a2c17}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--w:#3b3217;--wt:#f0cf80;--o:#412019;--ot:#f5a591}}
+:root[data-theme="dark"]{--w:#3b3217;--wt:#f0cf80;--o:#412019;--ot:#f5a591}
+.ntc{font:.8rem/1.35 system-ui,sans-serif;margin-top:6px;padding:7px 10px;border-radius:8px;background:var(--w);color:var(--wt)}
+.ntc.p{background:var(--o);color:var(--ot)}
+.sug{font:600 .78rem system-ui,sans-serif;margin:6px 6px 0 0;padding:6px 10px;border-radius:999px;border:1px solid var(--ot);background:transparent;color:var(--ot);cursor:pointer}
+.dp{font:.8rem system-ui,sans-serif;padding:5px 6px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);margin-top:6px}
+.rst{font:.75rem system-ui,sans-serif;background:none;border:0;color:var(--muted);text-decoration:underline;margin-left:6px;cursor:pointer}
+.foot{font:.75rem/1.4 system-ui,sans-serif;color:var(--muted);margin-top:4px}
+.stats{grid-template-columns:repeat(3,1fr)}
+.stat b{font-size:1.4rem}
+li{align-items:flex-start}
+.lema{font:italic 1.05rem Georgia,serif;color:var(--a);margin:0 0 10px}
+li input.tf{width:100%;font:.85rem system-ui,sans-serif;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);margin-top:6px}
+.act{font:600 .9rem system-ui,sans-serif;padding:11px 14px;border-radius:10px;border:1px solid var(--a);background:var(--a);color:var(--bg);cursor:pointer;margin:0 8px 8px 0}
+.act.alt{background:transparent;color:var(--a)}
+#st{font:.8rem system-ui,sans-serif;color:var(--b);min-height:1.2em}
+#tx{display:none;width:100%;height:160px;margin-top:8px;font:.8rem system-ui,sans-serif;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px}
+
+.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;background:var(--card);border-bottom:1px solid var(--line)}
+.bar button{flex:none;width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:10px;background:transparent;color:var(--text);cursor:pointer}
+.brand{display:flex;align-items:baseline;gap:10px;min-width:0}
+.brand b{font:700 1.2rem Georgia,serif;letter-spacing:.08em}
+.brand span{font:.85rem system-ui,sans-serif;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;z-index:40}
+#drawer{position:fixed;top:0;bottom:0;left:0;width:min(82vw,300px);background:var(--card);border-right:1px solid var(--line);transform:translateX(-100%);visibility:hidden;transition:transform .22s,visibility .22s;z-index:50;padding:16px 0;overflow-y:auto}
+body.nav #scrim{opacity:1;visibility:visible}
+body.nav #drawer{transform:none;visibility:visible}
+@media (prefers-reduced-motion:reduce){#drawer,#scrim{transition:none}}
+.dh{padding:4px 20px 14px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.dh b{display:block;font:700 1.25rem Georgia,serif;letter-spacing:.08em}
+.dh span{font:.78rem/1.35 system-ui,sans-serif;color:var(--muted)}
+#drawer a{display:block;padding:14px 20px;font:500 1rem system-ui,sans-serif;color:var(--text);text-decoration:none;border-left:4px solid transparent}
+#drawer a[aria-current=page]{border-left-color:var(--a);background:var(--bg);font-weight:700}
+#drawer a:focus-visible,.bar button:focus-visible,.tile:focus-visible,.chip:focus-visible,.pa button:focus-visible{outline:2px solid var(--a);outline-offset:-2px}
+.view{display:none}
+.view.on{display:block}
+.view h1:focus{outline:none}
+.tiles{display:grid;grid-template-columns:1fr;gap:10px}
+.tile{display:block;text-decoration:none;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.tile b{display:block;font-size:1.05rem;margin-bottom:2px}
+.tile span{font:.85rem/1.35 system-ui,sans-serif;color:var(--muted)}
+.tile.soon b::after{content:"Próximamente";font:600 .65rem system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;margin-left:8px;padding:2px 7px;border-radius:999px;background:var(--bg);color:var(--muted);vertical-align:2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.chip{font:600 .8rem system-ui,sans-serif;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--a);border-color:var(--a);color:var(--bg)}
+.pf{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}
+.pf:first-child{border-top:0}
+.th{flex:none;width:56px;height:56px;border-radius:8px;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;font:700 .7rem system-ui,sans-serif;color:var(--muted);overflow:hidden}
+.th img{width:100%;height:100%;object-fit:cover}
+.pi{flex:1;min-width:0}
+.pi b{display:block;overflow-wrap:anywhere;font-size:.95rem}
+.pi small{font:.78rem system-ui,sans-serif;color:var(--muted)}
+.pa{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pa button{font:600 .8rem system-ui,sans-serif;padding:8px 12px;border-radius:8px;border:1px solid var(--a);background:transparent;color:var(--a);cursor:pointer}
+.pa button.dng{border-color:var(--ot);color:var(--ot)}
+#pst{font:.8rem system-ui,sans-serif;color:var(--b);min-height:1.2em;margin-bottom:6px}
+.vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0 0 0 0)}
+label.act{display:inline-block;text-transform:none;letter-spacing:0;margin:0 8px 8px 0;text-align:center}
+#pin:focus-visible+label{outline:2px solid var(--a);outline-offset:2px}
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#8a5a2b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ECO">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<header class="bar"><button type="button" id="menu" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="brand"><b>ECO</b><span id="sec">Inicio</span></div></header>
+<div id="scrim"></div>
+<nav id="drawer" aria-label="Menú principal" aria-hidden="true"><div class="dh"><b>ECO</b><span>Equipo de Coordinación Parroquial<br>Hermandad de Emaús</span></div>
+<a href="#inicio" data-v="inicio">Inicio</a><a href="#calendario" data-v="calendario">Calendario del retiro</a><a href="#fichas" data-v="fichas">Fichas</a><a href="#servidores" data-v="servidores">Servidores</a><a href="#caminantes" data-v="caminantes">Caminantes</a><a href="#palancas" data-v="palancas">Palancas</a></nav>
+<main id="main">
+<section class="view" id="v-inicio"><h1 tabindex="-1">ECO</h1><p class="sub">Equipo de Coordinación Parroquial · Hermandad de Emaús</p>
+<div class="tiles">
+<a class="tile" href="#calendario"><b>Calendario del retiro</b><span>Fechas del retiro, retiro de servidores y reuniones de preparación.</span></a>
+<a class="tile soon" href="#fichas"><b>Fichas</b><span>Llenado de fichas.</span></a>
+<a class="tile soon" href="#servidores"><b>Servidores</b><span>Lista y coordinación de servidores.</span></a>
+<a class="tile soon" href="#caminantes"><b>Caminantes</b><span>Lista de caminantes.</span></a>
+<a class="tile" href="#palancas"><b>Palancas</b><span>Cartas, mensajes e imágenes para imprimir o descargar.</span></a>
+</div></section>
+<section class="view" id="v-calendario">
+<h1 id="h1">Retiro de Hombres de Emaús</h1>
+<div class="lema" id="lema"></div>
+<p class="sub">Cambia la fecha y todo se recalcula.</p>
+
+<div class="card">
+<label for="t">Nombre del retiro</label><input type="text" id="t" placeholder="Ej.: Primer retiro de Emaús Hombres, Parroquia San Miguel Arcángel" maxlength="120"><div style="height:14px"></div><label for="lm">Lema del retiro</label><input type="text" id="lm" placeholder="Ej.: Quédate con nosotros, Señor" maxlength="160"><div style="height:14px"></div><label for="f">Viernes del retiro</label>
+<input type="date" id="f" value="2027-04-30">
+<div style="margin-top:12px"><button class="act" id="bsave">Guardar retiro</button><button class="act alt" id="bnew">Nuevo retiro</button></div><div id="sv" style="font:.8rem system-ui,sans-serif;color:var(--b);min-height:1.2em"></div><div class="note" id="note"></div>
+</div>
+
+<div class="stats">
+<div class="stat"><b id="s1">–</b><span>días para el retiro</span></div>
+<div class="stat"><b id="s2">–</b><span>reuniones pendientes</span></div>
+<div class="stat"><b id="s3">0</b><span>avisos litúrgicos</span></div>
+</div>
+
+<div class="card r1"><div class="tag">Retiro de hombres</div>
+<div class="big" id="ret"></div><div class="days">Viernes · Sábado · Domingo</div><div id="retn"></div></div>
+
+<div class="card r2"><div class="tag">Retiro de servidores</div>
+<div class="big" id="srv"></div><div class="days" id="srvd"></div><div id="srvn"></div></div>
+
+<div class="card"><h2>Reuniones de preparación de servidores</h2>
+<div class="days" style="margin-bottom:6px">9 jueves consecutivos antes del retiro de servidores. Puedes cambiar cualquier fecha a mano y anotar el tema y el responsable de cada charla.</div>
+<ol id="list"></ol></div>
+<div class="card"><h2>Retiros guardados</h2><div class="days" id="svh" style="margin-bottom:6px"></div><ol id="saved"></ol></div>
+<div class="card"><h2>Compartir con el equipo</h2>
+<div class="days" style="margin-bottom:10px">Usa las fechas tal como están ahora, con tus cambios manuales.</div>
+<button class="act" id="bcopy">Copiar resumen</button><button class="act alt" id="btxt" hidden>Descargar .txt</button><button class="act alt" id="bcsv" hidden>CSV para Google Calendar</button>
+<div id="st"></div><textarea id="tx" readonly></textarea></div>
+<p class="foot">Avisos basados en el calendario litúrgico romano. Los días de precepto varían según el país (p. ej. Ascensión y Epifanía se trasladan al domingo en algunos lugares); confirma con tu parroquia o diócesis. Son solo avisos: tú decides la fecha.</p>
+</section>
+<section class="view" id="v-fichas"><h1 tabindex="-1">Fichas</h1><p class="sub">Llenado de fichas.</p><div class="card"><div class="days">Esta sección está en preparación.</div></div></section>
+<section class="view" id="v-servidores"><h1 tabindex="-1">Servidores</h1><p class="sub">Lista y coordinación de servidores.</p><div class="card"><div class="days">Esta sección está en preparación.</div></div></section>
+<section class="view" id="v-caminantes"><h1 tabindex="-1">Caminantes</h1><p class="sub">Lista de caminantes.</p><div class="card"><div class="days">Esta sección está en preparación.</div></div></section>
+<section class="view" id="v-palancas"><h1 tabindex="-1">Palancas</h1><p class="sub">Cartas, mensajes e imágenes para imprimir o descargar.</p>
+<div class="card">
+<input type="file" id="pin" class="vh" multiple accept="image/*,application/pdf,.doc,.docx,.txt,.rtf"><label class="act" id="padd" for="pin">Agregar archivos</label>
+<div class="chips" role="group" aria-label="Filtrar por tipo"><button type="button" class="chip" data-f="all" aria-pressed="true">Todos</button><button type="button" class="chip" data-f="img" aria-pressed="false">Imágenes</button><button type="button" class="chip" data-f="pdf" aria-pressed="false">PDF</button><button type="button" class="chip" data-f="otros" aria-pressed="false">Otros</button></div>
+<div id="pst" role="status"></div>
+<div id="plist"></div>
+<p class="foot">Los archivos se guardan solo en este dispositivo. Para tenerlos en otro teléfono, agrégalos ahí también.</p>
+</div></section>
+</main>
+<script>
+(function(){
+var DAY=86400000,ov={},tm={};
+var fmt=function(d){return d.toLocaleDateString('es',{weekday:'long',day:'numeric',month:'long',year:'numeric'})};
+var short=function(d){return d.toLocaleDateString('es',{weekday:'short',day:'numeric',month:'short'})};
+var cap=function(s){return s.charAt(0).toUpperCase()+s.slice(1)};
+function add(d,n){var x=new Date(d.getTime());x.setDate(x.getDate()+n);return x}
+function rel(d,t){var n=Math.round((d-t)/DAY);return n>0?'Faltan '+n+' días':n===0?'Es hoy':'Hace '+(-n)+' días'}
+function easter(y){var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),dy=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,dy,12)}
+var MOV={'-46':['Miércoles de Ceniza',1],'-7':['Domingo de Ramos',2,'p'],'-6':['Lunes Santo',1],'-5':['Martes Santo',1],'-4':['Miércoles Santo',1],'-3':['Jueves Santo',2,'t'],'-2':['Viernes Santo',2,'t'],'-1':['Sábado Santo',2,'t'],'0':['Domingo de Pascua',2,'p'],'1':['Octava de Pascua',1],'2':['Octava de Pascua',1],'3':['Octava de Pascua',1],'4':['Octava de Pascua',1],'5':['Octava de Pascua',1],'6':['Octava de Pascua',1],'39':['Ascensión del Señor',2,'p'],'49':['Pentecostés',2,'p'],'60':['Corpus Christi',1],'68':['Sagrado Corazón de Jesús',1]};
+var FIX={'1-1':['Santa María, Madre de Dios',2,'p'],'1-6':['Epifanía del Señor',1],'3-19':['San José',1],'6-29':['San Pedro y San Pablo',1],'8-15':['Asunción de la Virgen María',2,'p'],'11-1':['Todos los Santos',2,'p'],'11-2':['Fieles Difuntos',1],'12-8':['Inmaculada Concepción',2,'p'],'12-12':['Nuestra Señora de Guadalupe',1],'12-24':['Nochebuena',1],'12-25':['Navidad',2,'p']};
+function info(d){var y=d.getFullYear(),E=easter(y),o=Math.round((d-E)/DAY),L=[],x;
+x=MOV[o];if(x)L.push({n:x[0],l:x[1],k:x[2]});
+x=FIX[(d.getMonth()+1)+'-'+d.getDate()];if(x)L.push({n:x[0],l:x[1],k:x[2]});
+var an=new Date(y,2,25,12),ao=Math.round((an-E)/DAY),at=(ao>=-7&&ao<=7)?add(E,8):an;
+if(Math.round((d-at)/DAY)===0)L.push({n:'Anunciación del Señor'+(at!==an?' (trasladada)':''),l:1});
+if(d.getDay()===0&&!L.some(function(z){return z.k==='p'}))L.push({n:'Domingo',l:2,k:'p'});
+return L}
+function free(d){return d.getDay()!==0&&info(d).length===0}
+function notes(d,pre){var L=info(d),h='';L.forEach(function(z){
+var t=z.k==='p'?'Misa de precepto':z.k==='t'?'Triduo Pascual (no es de precepto)':'Fiesta litúrgica';
+h+='<div class="ntc'+(z.k?' p':'')+'">'+(pre?short(d)+': ':'')+'<b>'+z.n+'</b> · '+t+'</div>'});return h}
+function render(){
+var v=document.getElementById('f').value;if(!v)return;
+var p=v.split('-'),d=new Date(+p[0],+p[1]-1,+p[2],12);
+var t=new Date();t=new Date(t.getFullYear(),t.getMonth(),t.getDate(),12);
+var snap='';
+if(d.getDay()!==5){d=add(d,(5-d.getDay()+7)%7);snap='<div class="note">Ajustado al viernes más cercano: '+short(d)+' (el retiro siempre inicia en viernes).</div>'}
+document.getElementById('note').outerHTML='<div id="note">'+snap+notes(d,true)+'</div>';
+var sat=add(d,1),sun=add(d,2),srv=add(d,-6),cnt=0;
+document.getElementById('ret').textContent=cap(short(d))+' – '+short(sun)+' '+d.getFullYear();
+document.getElementById('retn').innerHTML=notes(d,true)+notes(sat,true)+notes(sun,true);
+document.getElementById('srv').textContent=cap(fmt(srv));
+document.getElementById('srvd').textContent=rel(srv,t);
+document.getElementById('srvn').innerHTML=notes(srv,false);
+document.getElementById('s1').textContent=Math.round((d-t)/DAY);
+var html='',pend=0,ms=[];
+for(var k=1;k<=9;k++){var base=add(srv,-2-7*(9-k)),m=ov[k]||base,past=m<t;if(!past)pend++;
+var L=info(m),hard=L.some(function(z){return z.l===2});if(L.length)cnt++;ms.push({k:k,m:m,L:L});
+var sg='';
+if(hard){var c=[-1,1,-2,2,-3,3].map(function(n){return add(m,n)}).filter(free).slice(0,2);
+if(c.length){sg='<div class="days" style="margin-top:6px">Alternativas sugeridas:</div>';c.forEach(function(x){sg+='<button class="sug" data-k="'+k+'" data-ts="'+x.getTime()+'">'+cap(short(x))+'</button>'})}}
+html+='<li class="'+(past?'past':'')+'"><span class="n">'+k+'</span><span class="d">'+cap(fmt(m))+'<small>'+rel(m,t)+(ov[k]?' · cambiada a mano':'')+'</small>'+notes(m,false)+sg+
+'<div><input type="date" class="dp" data-k="'+k+'" value="'+m.getFullYear()+'-'+String(m.getMonth()+1).padStart(2,'0')+'-'+String(m.getDate()).padStart(2,'0')+'">'+(ov[k]?'<button class="rst" data-k="'+k+'">restablecer</button>':'')+'</div><input type="text" class="tf" data-k="'+k+'" data-f="t" aria-label="Tema de la reunión '+k+'" placeholder="Tema del día (ej.: La humildad y el servicio en la fe)" maxlength="160" value="'+esc((tm[k]||{}).t||'')+'"><input type="text" class="tf" data-k="'+k+'" data-f="r" aria-label="Responsable de la reunión '+k+'" placeholder="Responsable de la charla" maxlength="80" value="'+esc((tm[k]||{}).r||'')+'"></span></li>'}
+document.getElementById('list').innerHTML=html;
+document.getElementById('s2').textContent=pend;
+document.getElementById('s3').textContent=cnt;cur={d:d,sun:sun,srv:srv,ms:ms};
+}
+document.getElementById('f').addEventListener('change',function(){ov={};render()});
+var cur=null,dl=null,st=document.getElementById('st');
+function nm(d){return info(d).map(function(z){return z.n}).join(', ')}
+function nd(d){return d.toLocaleDateString('es',{weekday:'long',day:'numeric',month:'long'})}
+function av(d){var n=nm(d);return n?' (aviso: '+n+')':''}
+function txt(){if(!cur)return '';var o=[];
+o.push(T()||'Retiro de Hombres de Emaús');
+if(LM())o.push('Lema: '+LM());
+o.push('');
+var rn=[cur.d,add(cur.d,1),cur.sun].map(nm).filter(Boolean).join(', ');
+o.push('Retiro: '+nd(cur.d)+' al '+fmt(cur.sun)+(rn?' (aviso: '+rn+')':''));
+o.push('Retiro de servidores: '+fmt(cur.srv)+av(cur.srv));
+o.push('');o.push('Reuniones de preparación de servidores:');
+cur.ms.forEach(function(x){var z=tm[x.k]||{};o.push(x.k+'. '+fmt(x.m)+av(x.m));if(z.t)o.push('   Tema: '+z.t);if(z.r)o.push('   Responsable: '+z.r)});
+return o.join('\n')}
+function q(v){return '"'+String(v).replace(/"/g,'""')+'"'}
+function us(d){return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+'/'+d.getFullYear()}
+function csv(){var r=['Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description'];
+function row(t,a,b,ds){r.push([q(t),us(a),'',us(b),'','True',q(ds||'')].join(','))}
+row(T()||'Retiro de Hombres de Emaús',cur.d,cur.sun,[LM()?'Lema: '+LM():'',nm(cur.d),nm(cur.sun)].filter(Boolean).join('. '));
+row('Retiro de servidores',cur.srv,cur.srv,nm(cur.srv));
+cur.ms.forEach(function(x){row('Reunión de preparación de servidores '+x.k+' de 9'+(T()?' - '+T():''),x.m,x.m,dsc(x))});
+return r.join('\r\n')}
+function say(m){st.textContent=m}
+function save(name,data){if(!dl)return;dl.save({filename:name,data:data}).then(function(){say('Listo.')},function(e){if(e&&e.code!=='declined')say('No se pudo guardar el archivo.')})}
+document.getElementById('bcopy').addEventListener('click',function(){var t=txt(),a=document.getElementById('tx');
+function fb(){a.style.display='block';a.value=t;a.focus();a.select();say('Selecciona el texto y cópialo.')}
+try{navigator.clipboard.writeText(t).then(function(){say('Resumen copiado. Pégalo en WhatsApp o correo.')},fb)}catch(e){fb()}});
+document.getElementById('btxt').addEventListener('click',function(){save('emaus-calendario.txt',txt())});
+document.getElementById('bcsv').addEventListener('click',function(){save('emaus-calendario.csv',csv())});
+var KEY='emaus:retiros',curId=null,sv=document.getElementById('sv');
+function T(){return document.getElementById('t').value.trim()}
+function LM(){return document.getElementById('lm').value.trim()}
+function esc(v){return String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+function dsc(x){var z=tm[x.k]||{};return [z.t?'Tema: '+z.t:'',z.r?'Responsable: '+z.r:'',nm(x.m)].filter(Boolean).join('. ')}
+function ht(){document.getElementById('h1').textContent=T()||'Retiro de Hombres de Emaús';var l=LM();document.getElementById('lema').textContent=l?'«'+l+'»':''}
+function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function pd(v){var p=v.split('-');return new Date(+p[0],+p[1]-1,+p[2],12)}
+var okS=true;
+function lsLoad(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){okS=false;return []}}
+function lsSave(l){try{localStorage.setItem(KEY,JSON.stringify(l));return true}catch(e){okS=false;return false}}
+function drawSaved(){var l=lsLoad().sort(function(a,b){return a.d<b.d?-1:1}),ul=document.getElementById('saved');ul.innerHTML='';
+document.getElementById('svh').textContent=okS?(l.length?'Se guardan solo en este navegador y dispositivo.':'Aún no has guardado ningún retiro.'):'El guardado no está disponible en este navegador.';
+l.forEach(function(r){var li=document.createElement('li'),sp=document.createElement('span');sp.className='d';
+var a=document.createElement('b');a.textContent=r.t;sp.appendChild(a);
+var sm=document.createElement('small');var f=pd(r.d);sm.textContent=short(f)+' – '+short(add(f,2))+' '+f.getFullYear()+(r.id===curId?' · abierto':'');sp.appendChild(sm);
+var b1=document.createElement('button');b1.className='sug';b1.textContent='Abrir';b1.setAttribute('data-op','open');b1.setAttribute('data-id',r.id);
+var b2=document.createElement('button');b2.className='sug';b2.textContent='Eliminar';b2.setAttribute('data-op','del');b2.setAttribute('data-id',r.id);
+sp.appendChild(document.createElement('div'));sp.lastChild.appendChild(b1);sp.lastChild.appendChild(b2);li.appendChild(sp);ul.appendChild(li)})}
+document.getElementById('t').addEventListener('input',ht);
+document.getElementById('lm').addEventListener('input',ht);
+document.getElementById('list').addEventListener('input',function(e){var i=e.target;if(!i.classList.contains('tf'))return;var k=i.getAttribute('data-k');tm[k]=tm[k]||{};tm[k][i.getAttribute('data-f')]=i.value});
+document.getElementById('bsave').addEventListener('click',function(){
+if(!T()){sv.textContent='Escribe primero el nombre del retiro.';return}
+if(!cur)return;var l=lsLoad(),o={};Object.keys(ov).forEach(function(k){o[k]=iso(ov[k])});
+var e=null;l.forEach(function(r){if(r.id===curId)e=r});
+if(!e){e={id:String(Date.now())};l.push(e)}
+e.t=T();e.lm=LM();e.d=iso(cur.d);e.ov=o;e.tm=JSON.parse(JSON.stringify(tm));curId=e.id;
+sv.textContent=lsSave(l)?'Retiro guardado.':'No se pudo guardar en este navegador.';drawSaved()});
+document.getElementById('bnew').addEventListener('click',function(){curId=null;ov={};tm={};document.getElementById('t').value='';document.getElementById('lm').value='';ht();sv.textContent='Retiro nuevo: escribe el nombre y elige la fecha.';render();drawSaved()});
+document.getElementById('saved').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var id=b.getAttribute('data-id'),l=lsLoad();
+if(b.getAttribute('data-op')==='open'){var r=null;l.forEach(function(x){if(x.id===id)r=x});if(!r)return;
+curId=id;document.getElementById('t').value=r.t;document.getElementById('lm').value=r.lm||'';tm=JSON.parse(JSON.stringify(r.tm||{}));ht();document.getElementById('f').value=r.d;ov={};Object.keys(r.ov||{}).forEach(function(k){ov[k]=pd(r.ov[k])});
+render();drawSaved();sv.textContent='Retiro abierto.';window.scrollTo(0,0)}
+else{if(b.getAttribute('data-armed')!=='1'){b.setAttribute('data-armed','1');b.textContent='¿Seguro? Toca otra vez';return}
+l=l.filter(function(x){return x.id!==id});lsSave(l);if(curId===id)curId=null;drawSaved()}});
+drawSaved();
+try{if(window.claude&&claude.use){claude.use('downloads').then(function(x){if(x){dl=x;document.getElementById('btxt').hidden=false;document.getElementById('bcsv').hidden=false}}).catch(function(){})}}catch(e){}
+var ls=document.getElementById('list');
+ls.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var k=b.getAttribute('data-k');
+if(b.classList.contains('sug')){var x=new Date(+b.getAttribute('data-ts'));ov[k]=new Date(x.getFullYear(),x.getMonth(),x.getDate(),12)}
+else if(b.classList.contains('rst')){delete ov[k]}render()});
+ls.addEventListener('change',function(e){var i=e.target;if(!i.classList.contains('dp')||!i.value)return;var q=i.value.split('-');ov[i.getAttribute('data-k')]=new Date(+q[0],+q[1]-1,+q[2],12);render()});
+render();
+})();
+</script>
+<script>
+(function(){
+var VIEWS=['inicio','calendario','fichas','servidores','caminantes','palancas'];
+var NAMES={inicio:'Inicio',calendario:'Calendario del retiro',fichas:'Fichas',servidores:'Servidores',caminantes:'Caminantes',palancas:'Palancas'};
+var body=document.body,btn=document.getElementById('menu'),drawer=document.getElementById('drawer'),mainEl=document.getElementById('main');
+function setNav(o){body.classList.toggle('nav',o);mainEl.inert=o;btn.setAttribute('aria-expanded',o?'true':'false');btn.setAttribute('aria-label',o?'Cerrar menú':'Abrir menú');drawer.setAttribute('aria-hidden',o?'false':'true');if(o){var a=drawer.querySelector('a[aria-current=page]')||drawer.querySelector('a');a.focus()}}
+btn.addEventListener('click',function(){var o=!body.classList.contains('nav');setNav(o);if(!o)btn.focus()});
+document.getElementById('scrim').addEventListener('click',function(){setNav(false);btn.focus()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&body.classList.contains('nav')){setNav(false);btn.focus()}});
+function cur(){var h=(location.hash||'').replace('#','');return VIEWS.indexOf(h)<0?'inicio':h}
+drawer.addEventListener('click',function(e){var a=e.target.closest('a');if(a&&a.getAttribute('data-v')===cur())setNav(false)});
+function route(first){var h=cur();
+VIEWS.forEach(function(v){document.getElementById('v-'+v).classList.toggle('on',v===h)});
+drawer.querySelectorAll('a').forEach(function(a){if(a.getAttribute('data-v')===h)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+document.getElementById('sec').textContent=NAMES[h];
+setNav(false);window.scrollTo(0,0);
+if(first!==true){var hd=document.querySelector('#v-'+h+' h1');if(hd){hd.setAttribute('tabindex','-1');hd.focus({preventScroll:true})}}}
+window.addEventListener('hashchange',route);
+route(true);
+
+/* Palancas: archivos guardados en este dispositivo (IndexedDB) */
+var db=null,filter='all',cache={},st=document.getElementById('pst');
+function say(m){st.textContent=m}
+function esc(v){return String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+function kind(r){if(/^image\//.test(r.type))return 'img';if(r.type==='application/pdf'||/\.pdf$/i.test(r.name))return 'pdf';return 'otros'}
+function sz(n){return n<1048576?Math.max(1,Math.round(n/1024))+' KB':(n/1048576).toFixed(1)+' MB'}
+function openDB(){return new Promise(function(res,rej){if(!window.indexedDB){rej(new Error('nodb'));return}var to=setTimeout(function(){rej(new Error('timeout'))},4000);var r=indexedDB.open('eco-palancas',1);r.onupgradeneeded=function(){r.result.createObjectStore('files',{keyPath:'id'})};r.onsuccess=function(){clearTimeout(to);res(r.result)};r.onerror=function(){clearTimeout(to);rej(r.error)};r.onblocked=function(){clearTimeout(to);rej(new Error('blocked'))}})}
+function tx(mode,fn){return new Promise(function(res,rej){var t=db.transaction('files',mode),out=fn(t.objectStore('files'));t.oncomplete=function(){res(out&&out.result)};t.onerror=t.onabort=function(){rej(t.error)}})}
+var mem=null;
+function getAll(){return mem?Promise.resolve(mem.slice()):tx('readonly',function(s){return s.getAll()})}
+function putRec(r){if(mem){mem.push(r);return Promise.resolve()}return tx('readwrite',function(s){s.put(r)})}
+function delRec(id){if(mem){mem=mem.filter(function(x){return x.id!==id});return Promise.resolve()}return tx('readwrite',function(s){s.delete(id)})}
+var CAN=false;try{CAN=!!(navigator.canShare&&navigator.canShare({files:[new File(['a'],'a.txt',{type:'text/plain'})]}))}catch(e){}
+function btnEl(txt,op,id,cls){var b=document.createElement('button');b.type='button';b.textContent=txt;b.setAttribute('data-op',op);b.setAttribute('data-id',id);if(cls)b.className=cls;return b}
+function draw(){
+getAll().then(function(l){
+l.sort(function(a,b){return b.added-a.added});cache={};l.forEach(function(r){cache[r.id]=r});
+var box=document.getElementById('plist');box.querySelectorAll('img').forEach(function(im){URL.revokeObjectURL(im.src)});box.textContent='';
+var shown=l.filter(function(r){return filter==='all'||kind(r)===filter});
+if(!shown.length){var p=document.createElement('div');p.className='days';p.textContent=l.length?'No hay archivos de este tipo.':'Aún no hay palancas. Toca "Agregar archivos" para subir cartas, mensajes o imágenes.';box.appendChild(p);return}
+shown.forEach(function(r){var k=kind(r),row=document.createElement('div');row.className='pf';
+var th=document.createElement('div');th.className='th';
+if(k==='img'){var im=document.createElement('img');im.alt='';im.src=URL.createObjectURL(r.blob);th.appendChild(im)}else th.textContent=k==='pdf'?'PDF':(r.name.split('.').pop()||'').slice(0,4).toUpperCase();
+var pi=document.createElement('div');pi.className='pi';var nb=document.createElement('b');nb.textContent=r.name;var sm=document.createElement('small');sm.textContent=sz(r.size);pi.appendChild(nb);pi.appendChild(sm);
+var pa=document.createElement('div');pa.className='pa';
+if(k!=='otros')pa.appendChild(btnEl(k==='img'?'Ver / imprimir':'Abrir','view',r.id));
+pa.appendChild(btnEl('Descargar','dl',r.id));
+if(CAN)pa.appendChild(btnEl('Compartir','share',r.id));
+pa.appendChild(btnEl('Eliminar','del',r.id,'dng'));
+pi.appendChild(pa);row.appendChild(th);row.appendChild(pi);box.appendChild(row)})
+},function(){say('No se pudieron leer los archivos.')})}
+function view(r){
+if(kind(r)==='img'){var u=URL.createObjectURL(r.blob),w=window.open('','_blank');if(!w){say('El navegador bloqueó la ventana. Permite ventanas emergentes e inténtalo otra vez.');return}
+w.document.write('<!doctype html><meta charset="utf-8"><title>'+esc(r.name)+'</title><style>@page{margin:10mm}html,body{margin:0}img{display:block;max-width:100%;max-height:100vh;margin:0 auto}</style><img alt="" src="'+u+'" onload="setTimeout(function(){window.print()},250)">');w.document.close()}
+else{var w2=window.open(URL.createObjectURL(r.blob),'_blank');if(!w2)say('El navegador bloqueó la ventana. Permite ventanas emergentes e inténtalo otra vez.')}}
+function dl(r){var a=document.createElement('a');a.href=URL.createObjectURL(r.blob);a.download=r.name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},5000)}
+document.getElementById('plist').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var id=b.getAttribute('data-id'),op=b.getAttribute('data-op'),r=cache[id];if(!r)return;
+if(op==='view')view(r);else if(op==='dl')dl(r);
+else if(op==='share'){navigator.share({files:[new File([r.blob],r.name,{type:r.type})],title:r.name}).catch(function(){})}
+else if(op==='del'){if(b.getAttribute('data-armed')!=='1'){b.setAttribute('data-armed','1');b.textContent='¿Seguro? Toca otra vez';return}
+delRec(id).then(function(){say('Archivo eliminado.');draw()},function(){say('No se pudo eliminar.')})}});
+document.querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',function(){filter=c.getAttribute('data-f');document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false')});draw()})});
+var pin=document.getElementById('pin');
+pin.addEventListener('change',function(){
+var fs=Array.prototype.slice.call(pin.files||[]);if(!fs.length)return;
+var ok=[],big=0;fs.forEach(function(f){if(f.size>26214400)big++;else ok.push(f)});
+if(!ok.length){say(big+(big>1?' archivos pasan':' archivo pasa')+' de 25 MB y no se agregaron.');pin.value='';return}
+say('Guardando '+ok.length+(ok.length>1?' archivos…':' archivo…'));
+var ready=(db||mem)?Promise.resolve():openDB().then(function(d){db=d},function(){mem=[]});
+ready.then(function(){return Promise.all(ok.map(function(f,i){var ty=f.type||'application/octet-stream';return f.arrayBuffer().then(function(buf){
+return putRec({id:Date.now()+'-'+i+'-'+Math.random().toString(36).slice(2,6),name:f.name,type:ty,size:f.size,added:Date.now()+i,blob:new Blob([buf],{type:ty})})})}))}).then(function(){
+say(ok.length+(ok.length>1?' archivos agregados.':' archivo agregado.')+(mem?' Se conservan solo mientras esta página esté abierta.':'')+(big?' '+big+(big>1?' pasan':' pasa')+' de 25 MB y no se agregaron.':''));draw()},function(e){say('No se pudo guardar el archivo'+(e&&e.message?' ('+e.message+')':'')+'.')}).then(function(){pin.value=''})});
+openDB().then(function(d){db=d;draw();try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(function(){})}catch(e){}},function(){mem=[];draw();say('Este navegador no permite guardar archivos de forma permanente. Se conservarán solo mientras esta página esté abierta.')});
+})();
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+</body>
+</html>
