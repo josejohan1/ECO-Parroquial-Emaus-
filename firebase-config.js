@@ -18,4 +18,4 @@ window.ECO_FIREBASE = null;
 // Cuando termines la GUIA-CALENDARIO-PARROQUIA, pega aquí tu llave, por ejemplo:
 // window.ECO_GCAL = { apiKey: "AIza..." };
 // El calendario ya está puesto (office.admin@stmichaelnetcong.org). La llave no da acceso a nada privado.
-window.ECO_GCAL = null;
+window.ECO_GCAL = { apiKey: "AIzaSyB3rKzB1kmw0ZMAp4SI26iKAVZwqZDWNGg" };
