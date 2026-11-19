@@ -161,15 +161,16 @@ a.act{display:inline-block;text-decoration:none;text-align:center}
 .hero .logo-h{display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.25}.hero .logo-h img{max-height:62px;width:auto;max-width:100%;object-fit:contain}.hero-p{font:600 .72rem/1.25 system-ui,sans-serif;color:#5b4a3a;text-align:center;letter-spacing:.02em}.hero-p+.hero-p{font-weight:500;color:#7a6a5a}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.hero-h{height:92px}
 .view#v-inicio .logo-h{margin:0 0 12px}.view#v-inicio .logo-h img{width:100%;max-width:560px;max-height:none;border-radius:16px;box-shadow:0 1px 0 var(--line)}
 
-:root{--c-ob:#b3261e;--c-fi:#b8860b;--c-ac:#2f6f5e;--c-re:#6b4fa0;--c-dom:#a79c90}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-ob:#f08a7e;--c-fi:#e6bf5a;--c-ac:#6fc2a9;--c-re:#b9a2ea;--c-dom:#7a6f66}}
-:root[data-theme="dark"]{--c-ob:#f08a7e;--c-fi:#e6bf5a;--c-ac:#6fc2a9;--c-re:#b9a2ea;--c-dom:#7a6f66}
+:root{--c-ob:#b3261e;--c-fi:#b8860b;--c-ac:#2f6f5e;--c-re:#6b4fa0;--c-dom:#a79c90;--c-pa:#2f6fae}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-ob:#f08a7e;--c-fi:#e6bf5a;--c-ac:#6fc2a9;--c-re:#b9a2ea;--c-dom:#7a6f66;--c-pa:#7fb2e6}}
+:root[data-theme="dark"]{--c-ob:#f08a7e;--c-fi:#e6bf5a;--c-ac:#6fc2a9;--c-re:#b9a2ea;--c-dom:#7a6f66;--c-pa:#7fb2e6}
 .gnav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.gnav b{font:700 1.05rem Georgia,serif;text-align:center}
 .gfil{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .gchip{display:inline-flex;align-items:center;gap:6px;font:600 .78rem system-ui,sans-serif;text-transform:none;letter-spacing:0;color:var(--text);border:1px solid var(--line);border-radius:999px;padding:6px 10px;margin:0;cursor:pointer;background:var(--bg)}
 .gchip input{margin:0;width:16px;height:16px}
 .sq{width:10px;height:10px;border-radius:3px;display:inline-block;background:var(--c-dom)}
-.sq.ob,.gd i.ob,.gbar.ob{background:var(--c-ob)}.sq.fi,.gd i.fi,.gbar.fi{background:var(--c-fi)}.sq.ac,.gd i.ac,.gbar.ac{background:var(--c-ac)}.sq.re,.gd i.re,.gbar.re{background:var(--c-re)}.gd i.dom,.gbar.dom{background:var(--c-dom)}
+.sq.ob,.gd i.ob,.gbar.ob{background:var(--c-ob)}.sq.fi,.gd i.fi,.gbar.fi{background:var(--c-fi)}.sq.ac,.gd i.ac,.gbar.ac{background:var(--c-ac)}.sq.re,.gd i.re,.gbar.re{background:var(--c-re)}.gd i.dom,.gbar.dom{background:var(--c-dom)}.sq.pa,.gd i.pa,.gbar.pa{background:var(--c-pa)}
+.cfw{font:.85rem/1.45 system-ui,sans-serif;margin:8px 0;padding:9px 12px;border-radius:10px;background:var(--w);color:var(--wt)}.cfw.ok{background:var(--okbg);color:var(--oktx)}.cfw.nt{background:var(--nbg);color:var(--ntx)}.cfw b{display:block;margin-bottom:2px}
 .gdow,.gcells{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
 .gdow span{font:600 .7rem system-ui,sans-serif;text-align:center;color:var(--muted);padding-bottom:4px}
 .gc{min-height:50px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);font:600 .85rem system-ui,sans-serif;padding:5px 2px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;min-width:0}
@@ -281,7 +282,7 @@ main>.view{max-width:1120px}
 <div id="gmain">
 <div class="card">
 <div class="gnav"><button type="button" class="sm" id="gprev" aria-label="Mes anterior">&lsaquo;</button><b id="gmon" aria-live="polite"></b><button type="button" class="sm" id="gnext" aria-label="Mes siguiente">&rsaquo;</button></div>
-<div class="gfil" id="gfil"></div>
+<div class="gfil" id="gfil"></div><div id="gpar" role="status" style="font:.8rem/1.4 system-ui,sans-serif;color:var(--muted);margin:6px 0 0"></div>
 <div class="gdow" aria-hidden="true"><span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span></div>
 <div class="gcells" id="gcells"></div>
 </div>
@@ -833,8 +834,8 @@ $('ttm').addEventListener('click',function(){ttabs('m')});$('ttp').addEventListe
 function tinit(){tload();tseed();tload();pbLoad();pbRender();var h=(location.hash||'').replace('#','');if(h==='hermandad')tswitch('h');else{renderT();ttabs('m')}window.addEventListener('hashchange',tsync)}
 
 /* ---------- Calendario general ---------- */
-var GCAT={ob:'Obligación',fi:'Otras fiestas',dom:'Domingos',ac:'Actividades',re:'Retiros'};
-var GF={ob:true,fi:true,dom:false,ac:true,re:true},GM=null,GSEL='',GA=[],LITC={},GW=null;
+var GCAT={ob:'Obligación',fi:'Otras fiestas',dom:'Domingos',ac:'Actividades',re:'Retiros',pa:'Parroquia'};
+var GF={ob:true,fi:true,dom:false,ac:true,re:true,pa:true},GM=null,GSEL='',GA=[],LITC={},GW=null;
 var DAYMS=86400000;
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
 function gload(){var a=Store.get('eco:acts',[]);GA=Array.isArray(a)?a:[]}
@@ -885,21 +886,41 @@ var s=pd(a.date),t=pd(to),en=a.until?pd(a.until):null,i,k,n=0;
 if(a.rep==='w'||a.rep==='b'){var st=a.rep==='w'?7:14;for(var d=new Date(s.getTime());d<=t&&(!en||d<=en)&&n<4000;d=addD(d,st),n++){k=iso(d);if(k>=from&&ex.indexOf(k)<0)r.push(k)}}
 else if(a.rep==='m'){for(i=0;i<1200;i++){var f=new Date(s.getFullYear(),s.getMonth()+i,1,12);if(f>t)break;var x=new Date(s.getFullYear(),s.getMonth()+i,s.getDate(),12);if(x.getDate()!==s.getDate())continue;if(en&&x>en)break;k=iso(x);if(k>=from&&ex.indexOf(k)<0)r.push(k)}}
 return r}
+/* ---- Calendario de la parroquia: Google Calendar público, solo lectura ---- */
+var PARC=window.ECO_GCAL||{},PAR={id:PARC.calendarId||'office.admin@stmichaelnetcong.org',key:PARC.apiKey||'',ev:[],ld:[],pend:{},state:'',err:''};
+function parOn(){return!!PAR.key}
+function parCov(a,b){return PAR.ld.some(function(r){return r[0]<=a&&r[1]>=b})}
+function hhmm(d){return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function parConv(it){if(!it||it.status==='cancelled')return null;var s=it.start||{},e=it.end||{},o={c:'pa',t:it.summary||'(sin título)',place:it.location||'',note:'',id:'pa-'+it.id,pa:1};
+if(s.date){o.date=s.date;o.time='';var ee=e.date?iso(addD(pd(e.date),-1)):s.date;if(ee>s.date)o.end=ee}
+else if(s.dateTime){var d=new Date(s.dateTime),d2=e.dateTime?new Date(e.dateTime):d;o.date=iso(d);o.time=hhmm(d);o.dur=Math.max(0,Math.round((d2-d)/60000))||60}else return null;return o}
+function parFetch(a,b,cb){if(!parOn()){cb&&cb('nokey');return}if(parCov(a,b)){cb&&cb(null);return}
+var f=pd(a),t=pd(b),A=iso(new Date(f.getFullYear(),f.getMonth()-1,1,12)),B=iso(new Date(t.getFullYear(),t.getMonth()+2,0,12)),K=A+'|'+B;
+if(PAR.pend[K]){PAR.pend[K].push(cb);return}PAR.pend[K]=[cb];
+var x=pd(B),url='https://www.googleapis.com/calendar/v3/calendars/'+encodeURIComponent(PAR.id)+'/events?singleEvents=true&orderBy=startTime&maxResults=2500&fields='+encodeURIComponent('items(id,summary,location,status,start,end)')+'&timeMin='+encodeURIComponent(new Date(+A.slice(0,4),+A.slice(5,7)-1,1).toISOString())+'&timeMax='+encodeURIComponent(new Date(x.getFullYear(),x.getMonth(),x.getDate()+1).toISOString())+'&key='+encodeURIComponent(PAR.key);
+function done(err){var L=PAR.pend[K]||[];delete PAR.pend[K];PAR.ld.push([A,B]);L.forEach(function(c){try{c&&c(err)}catch(e){}})}
+try{fetch(url).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error((j&&j.error&&j.error.message)||('Error '+r.status));return j},function(){throw new Error('Error '+r.status)})}).then(function(j){
+PAR.ev=PAR.ev.filter(function(e){return(e.end||e.date)<A||e.date>B});(j.items||[]).forEach(function(it){var o=parConv(it);if(o)PAR.ev.push(o)});PAR.state='ok';PAR.err='';done(null)}).catch(function(e){PAR.state='err';PAR.err=e&&e.message?e.message:'sin conexión';done(PAR.err)})}catch(e){PAR.state='err';PAR.err='sin conexión';done(PAR.err)}}
+function parNote(){var n=$('gpar');if(!n)return;if(!GF.pa){n.textContent='';return}
+if(!parOn())n.textContent='Calendario de la parroquia: todavía no está conectado. Se conecta en el link de GitHub con la llave de Google (ver GUIA-CALENDARIO-PARROQUIA).';
+else if(PAR.state==='err')n.textContent='No se pudo cargar el calendario de la parroquia ('+PAR.err+'). Revisa tu conexión y vuelve a abrir la app.';else n.textContent=''}
+function parEnsure(a,b){parNote();if(!GF.pa||!parOn()||parCov(a,b))return;parFetch(a,b,function(){parNote();if($('v-general')&&$('v-general').classList.contains('on'))gRender()})}
 function gEvents(from,to,F){var out=[],y;
 for(y=+from.slice(0,4);y<=+to.slice(0,4);y++){var M=lit(y);Object.keys(M).forEach(function(k){if(k<from||k>to)return;M[k].forEach(function(e){if(F[e.c])out.push({date:k,t:e.t,c:e.c,note:e.note})})})}
 if(F.ac)GA.forEach(function(a){occ(a,from,to).forEach(function(k){out.push({date:k,t:a.title,c:'ac',time:a.time||'',dur:a.dur||60,place:a.place||'',note:a.notes||'',id:a.id,series:!!(a.rep&&a.rep!=='none'),end:''})})});
 if(F.re)gRet().forEach(function(e){var en=e.end||e.date;if(en>=from&&e.date<=to)out.push(e)});
+if(F.pa)PAR.ev.forEach(function(e){if((e.end||e.date)>=from&&e.date<=to)out.push(e)});
 out.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:((a.time||'')<(b.time||'')?-1:(a.time||'')>(b.time||'')?1:0)});return out}
 function ftime(t){var p=t.split(':');return new Date(2000,0,1,+p[0],+p[1]).toLocaleTimeString('es',{hour:'numeric',minute:'2-digit'})}
 function repText(a){var r=a.rep;return r==='w'?'Cada semana':r==='b'?'Cada 2 semanas':r==='m'?'Cada mes':'Una sola vez'}
 function gmsg(x){$('gst').textContent=x||''}
-function gFilters(box,F,onchg){box.textContent='';Object.keys(GCAT).forEach(function(k){var cb=el('input',{type:'checkbox','data-k':k});cb.checked=!!F[k];
+function gFilters(box,F,onchg){box.textContent='';Object.keys(GCAT).forEach(function(k){if(k==='pa'&&F===GXF)return;var cb=el('input',{type:'checkbox','data-k':k});cb.checked=!!F[k];
 cb.addEventListener('change',function(){F[k]=cb.checked;if(onchg)onchg()});
 box.appendChild(el('label',{cls:'gchip'},[cb,el('i',{cls:'sq '+k}),document.createTextNode(GCAT[k])]))})}
 function gRender(){if(!GM){var t=today();GM=new Date(t.getFullYear(),t.getMonth(),1,12)}
 var y=GM.getFullYear(),m=GM.getMonth(),first=new Date(y,m,1,12),last=new Date(y,m+1,0,12),st=addD(first,-first.getDay()),en=addD(last,6-last.getDay());
 $('gmon').textContent=cap(GM.toLocaleDateString('es',{month:'long',year:'numeric'}));
-var evs=gEvents(iso(st),iso(en),GF),by={};
+parEnsure(iso(st),iso(en));var evs=gEvents(iso(st),iso(en),GF),by={};
 evs.forEach(function(e){var a=e.date,b=e.end||e.date;for(var d=pd(a);iso(d)<=b;d=addD(d,1)){(by[iso(d)]=by[iso(d)]||[]).push(e)}});
 var box=$('gcells'),td=iso(today());box.textContent='';
 for(var d=st;d<=en;d=addD(d,1)){(function(d){var k=iso(d),L=by[k]||[],cl='gc'+(d.getMonth()!==m?' out':'')+(k===td?' td':'')+(k===GSEL?' sel':'')+(L.some(function(e){return e.c==='ob'})?' hasob':'');
@@ -916,7 +937,7 @@ list.forEach(function(e){var row=el('div',{cls:'grow'});row.appendChild(el('span
 var dt=pd(e.date),when=e.end&&e.end!==e.date?dt.getDate()+'–'+pd(e.end).getDate():String(dt.getDate());
 row.appendChild(el('div',{cls:'gdt'},[el('b',{text:when}),el('span',{text:dt.toLocaleDateString('es',{weekday:'short'})})]));
 var body=el('div',{cls:'gbody'}),tt=el('b',{text:e.t});body.appendChild(tt);
-var meta=[];if(e.c==='ob')meta.push('Obligación');else if(e.c==='ac'){meta.push(e.time?ftime(e.time)+' a '+ftime(addMin(e.time,e.dur)):'Todo el día');if(e.series)meta.push(repText(GA.filter(function(a){return a.id===e.id})[0]||{}))}else if(e.c==='re')meta.push('Retiros');
+var meta=[];if(e.c==='ob')meta.push('Obligación');else if(e.c==='ac'){meta.push(e.time?ftime(e.time)+' a '+ftime(addMin(e.time,e.dur)):'Todo el día');if(e.series)meta.push(repText(GA.filter(function(a){return a.id===e.id})[0]||{}))}else if(e.c==='re')meta.push('Retiros');else if(e.c==='pa'){meta.push('Parroquia · '+(e.time?ftime(e.time)+' a '+ftime(addMin(e.time,e.dur)):'Todo el día'))}
 if(e.place)meta.push(e.place);if(e.note&&e.c!=='re')meta.push(e.note);
 if(meta.length)body.appendChild(el('div',{cls:'ms',text:meta.join(' · ')}));
 if(e.c==='ac'&&isAdmin()){var act=el('div',{style:'margin-top:6px;display:flex;gap:8px;flex-wrap:wrap'});
@@ -944,6 +965,18 @@ card.appendChild(fld('Notas (opcional)','ga-n',el('textarea',{id:'ga-n',maxlengt
 var rp=el('select',{id:'ga-r'});[['none','No se repite (una sola vez)'],['w','Cada semana'],['b','Cada 2 semanas'],['m','Cada mes (el mismo día)']].forEach(function(o){rp.appendChild(el('option',{value:o[0],text:o[1]}))});rp.value=w.rep||'none';
 card.appendChild(fld('Repetición','ga-r',rp));
 var ug=fld('Repetir hasta (opcional)','ga-u',el('input',{type:'date',id:'ga-u',value:w.until||''}));card.appendChild(ug);
+var cf=el('div',{id:'ga-cf',cls:'cfw nt',role:'status'});cf.hidden=true;card.appendChild(cf);var CT=0;
+function mm(t){var p=t.split(':');return+p[0]*60+ +p[1]}
+function chk(){var my=++CT,d=$('ga-d').value;cf.hidden=true;if(!d)return;
+if(!parOn()){cf.hidden=false;cf.className='cfw nt';cf.textContent='No se revisan conflictos con la parroquia porque su calendario aún no está conectado.';return}
+var r=rp.value,u=ug.querySelector('input').value||'',lim=iso(addD(pd(d),120)),to=r==='none'?d:(u&&u<lim?u:lim);
+parFetch(d,to,function(err){if(my!==CT)return;cf.hidden=false;if(err){cf.className='cfw nt';cf.textContent='No se pudo revisar el calendario de la parroquia ahora.';return}
+var ds=occ({date:d,rep:r,until:u,ex:w.ex},d,to),all=allc.checked,h=tm.value,dur=+du.value||60,hits=[];
+ds.forEach(function(k){PAR.ev.forEach(function(e){if(e.date>k||(e.end||e.date)<k)return;if(all){if(e.time)return}else if(e.time&&h){var s1=mm(h),e1=s1+dur,s2=mm(e.time),e2=s2+(e.dur||60);if(!(s1<e2&&s2<e1))return}hits.push({k:k,e:e})})});
+if(!hits.length){cf.className='cfw ok';cf.textContent='Sin conflictos con el calendario de la parroquia'+(r!=='none'?' (próximos 4 meses).':'.');return}
+cf.className='cfw';cf.textContent='';cf.appendChild(el('b',{text:'Puede chocar con la parroquia:'}));
+hits.slice(0,5).forEach(function(x){cf.appendChild(el('div',{text:fdl(pd(x.k))+' · '+(x.e.time?ftime(x.e.time)+' a '+ftime(addMin(x.e.time,x.e.dur||60)):'Todo el día')+' · '+x.e.t}))});
+if(hits.length>5)cf.appendChild(el('div',{text:'… y '+(hits.length-5)+' más.'}))})}
 var exb=el('div',{id:'ga-exb'});card.appendChild(exb);
 function syncRep(){ug.hidden=rp.value==='none';exb.hidden=rp.value==='none'||!id}rp.addEventListener('change',syncRep);
 function drawEx(){exb.textContent='';exb.appendChild(el('label',{text:'Fechas omitidas de la serie'}));
@@ -956,7 +989,7 @@ card.appendChild(el('div',{id:'ga-e',role:'alert',style:'font:.85rem system-ui,s
 var sv=el('button',{type:'button',cls:'act',text:'Guardar',style:'margin:8px 8px 0 0'}),cn=el('button',{type:'button',cls:'sm',text:'Cancelar'});card.appendChild(sv);card.appendChild(cn);
 if(id){var dd=el('button',{type:'button',cls:'sm dng',text:'Eliminar',style:'margin-left:8px'});dd.addEventListener('click',function(){if(dd.getAttribute('data-armed')!=='1'){dd.setAttribute('data-armed','1');dd.textContent='¿Seguro? Toca otra vez';return}
 GA=GA.filter(function(x){return x.id!==id});gsave();gclose('Actividad eliminada.')});card.appendChild(dd)}
-box.appendChild(card);gshow('form');$('ga-t').focus();
+box.appendChild(card);gshow('form');$('ga-t').focus();['ga-d','ga-h','ga-du','ga-all','ga-r','ga-u'].forEach(function(i){var n=document.getElementById(i);if(n){n.addEventListener('change',chk);n.addEventListener('input',chk)}});chk();
 sv.addEventListener('click',function(){var t=$('ga-t').value.trim(),d=$('ga-d').value,u=$('ga-u').value,E=$('ga-e'),r=$('ga-r').value;
 if(!t){E.textContent='Escribe el nombre.';$('ga-t').focus();return}if(!d){E.textContent='Elige la fecha.';return}
 if(!allc.checked&&!$('ga-h').value){E.textContent='Elige la hora o marca "Todo el día".';return}
