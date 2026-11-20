@@ -131,6 +131,7 @@ label.act{display:inline-block;text-transform:none;letter-spacing:0;margin:0 8px
 .fld input[type=text],.fld input[type=tel],.fld input[type=email],.fld input[type=date],.fld input[type=search],.fld input[type=password],.fld input[type=number],.fld input[type=time],.fld textarea,.fld input[type=url],.fld select{box-sizing:border-box;min-width:0;width:100%;font:1rem system-ui,sans-serif;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text)}
 .ck{display:flex;align-items:center;gap:12px;padding:8px 4px;border-top:1px solid var(--line);min-height:48px;cursor:pointer;font:1rem system-ui,sans-serif}
 .ck input{width:22px;height:22px;flex:none;accent-color:var(--a)}
+.mfr{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line)}.mfr .ck{border-top:0;flex:1;min-width:0}.xk{display:flex;align-items:center;gap:6px;font:.85rem system-ui,sans-serif;color:var(--muted);padding:8px 4px;min-height:48px;cursor:pointer;flex:none}.xk input{width:20px;height:20px;accent-color:var(--a)}
 .ck span{min-width:0;overflow-wrap:anywhere}
 .cnt{font:700 1rem system-ui,sans-serif;margin:6px 0}
 .dc h2{font:700 .72rem system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--a);margin:0 0 4px}
@@ -319,7 +320,7 @@ main>.view{max-width:1120px}
 <div class="card" id="mex" hidden><div class="days">Hay datos de ejemplo en esta lista. Bórralos cuando agregues los hermanos reales.</div><div style="margin-top:8px"><button type="button" class="sm dng" id="mexdel">Borrar ejemplos</button></div></div>
 <div class="stats4" id="mstats"></div>
 <div class="mact"><button type="button" class="act" id="mreg">Registrar reunión</button><button type="button" class="act alt" id="madd">Agregar miembro</button></div>
-<div class="seg" role="group" aria-label="Ver"><button type="button" id="tabm" aria-pressed="true">Miembros</button><button type="button" id="tabr" aria-pressed="false">Reuniones</button></div>
+<div class="seg" role="group" aria-label="Ver"><button type="button" id="tabm" aria-pressed="true">Miembros</button><button type="button" id="tabr" aria-pressed="false">Reuniones</button><button type="button" id="tabv" aria-pressed="false">Visitantes</button></div>
 <div class="card">
 <div id="msearchw" class="fld"><label for="msearch">Buscar</label><input type="text" id="msearch" placeholder="Nombre o teléfono" autocomplete="off"></div>
 <div id="mlist"></div>
@@ -328,7 +329,7 @@ main>.view{max-width:1120px}
 <textarea id="mtx" readonly style="display:none;width:100%;height:140px;margin-top:8px;font:.8rem system-ui,sans-serif;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px"></textarea>
 </div>
 <details class="card" style="margin-top:0"><summary style="font:600 .9rem system-ui,sans-serif;cursor:pointer">Cómo se calcula quién está activo</summary>
-<p class="days" style="margin:8px 0 0;line-height:1.5"><b>Activo:</b> asistió a alguna reunión en los últimos 3 meses.<br><b>En riesgo:</b> entre 3 y 6 meses sin asistir. Conviene contactarlo.<br><b>Inactivo:</b> 6 meses o más sin asistir y sin avisar (Ser y Hacer, art. 53).<br><b>Ausencia informada:</b> pasó de 3 meses, pero avisó al ECO. No cuenta como inactivo.<br>Si un hermano es nuevo y aún no asiste, se cuenta desde su fecha de ingreso. El corte de 3 meses es una sugerencia nuestra; el estatuto solo fija los 6 meses.</p></details>
+<p class="days" style="margin:8px 0 0;line-height:1.5"><b>Activo:</b> asistió a alguna reunión en los últimos 3 meses.<br><b>En riesgo:</b> entre 3 y 6 meses sin asistir. Conviene contactarlo.<br><b>Inactivo:</b> 6 meses o más sin asistir y sin avisar (Ser y Hacer, art. 53).<br><b>Ausencia informada:</b> pasó de 3 meses, pero en la última reunión avisó que no vendría (se marca al registrar la reunión). No cuenta como inactivo. Una falta sin aviso sí suma tiempo sin asistir.<br><b>Visitantes:</b> se anotan en cada reunión y no cuentan como activos ni inactivos.<br>Si un hermano es nuevo y aún no asiste, se cuenta desde su fecha de ingreso. El corte de 3 meses es una sugerencia nuestra; el estatuto solo fija los 6 meses.</p></details>
 </div>
 <div id="mform" hidden></div>
 <div id="medit" hidden></div>
@@ -610,15 +611,17 @@ function seed(){if(CLOUD||Store.get('eco:seeded',false))return;
 var t=today(),names=['Andrés','Bruno','Carlos','Daniel','Esteban','Felipe','Gabriel','Héctor','Ignacio','Javier'],ids=[];
 var att={0:[1,2,3,4,5,6,7,8],1:[1,2,4,5,7,8],2:[1,3,5,8],3:[2,6,8,16],4:[1],5:[16,20,30],6:[20,30],7:[30],8:[30],9:[8,16]};
 var offs=[1,2,3,4,5,6,7,8,16,20,30];
-names.forEach(function(n,i){var id='ex'+i;ids.push(id);MB.push({id:id,name:n+' Ejemplo',phone:'(555) 010-01'+String(10+i),email:'',joined:iso(addD(t,i===4?-14:-400)),informed:i===8,example:true})});
+names.forEach(function(n,i){var id='ex'+i;ids.push(id);MB.push({id:id,name:n+' Ejemplo',phone:'(555) 010-01'+String(10+i),email:'',joined:iso(addD(t,i===4?-14:-400)),example:true})});
 var temas={1:'La Palabra de Dios',2:'La oración',3:'Los sacramentos'};
 offs.forEach(function(o){var pr=[];names.forEach(function(n,i){if(att[i].indexOf(o)>=0)pr.push(ids[i])});MT.push({id:'exr'+o,date:iso(addD(t,-7*o)),type:'form',tema:temas[o]||'',present:pr,example:true})});
 save();Store.set('eco:seeded',true)}
 function lastAtt(id){var l=null;MT.forEach(function(r){if(r.present.indexOf(id)>=0&&(!l||r.date>l))l=r.date});return l}
-function status(m){var la=lastAtt(m.id),ref=la?pd(la):(m.joined?pd(m.joined):today()),t=today();
-if(addM(ref,6)<=t)return m.informed?'inf':'off';if(addM(ref,3)<=t)return m.informed?'inf':'risk';return 'ok'}
+function lastMt(){var l=null;MT.forEach(function(r){if(!l||r.date>l.date)l=r});return l}
+function repInf(m){var r=lastMt();return!!(r&&(r.exc||[]).indexOf(m.id)>=0&&r.present.indexOf(m.id)<0)}
+function status(m){var la=lastAtt(m.id),ref=la?pd(la):(m.joined?pd(m.joined):today()),t=today(),inf=repInf(m);
+if(addM(ref,6)<=t)return inf?'inf':'off';if(addM(ref,3)<=t)return inf?'inf':'risk';return 'ok'}
 function ratio(m){var rs=MT.slice().sort(function(a,b){return a.date<b.date?1:-1}).slice(0,8).filter(function(r){return !m.joined||r.date>=m.joined});
-if(!rs.length)return 'Sin reuniones desde su ingreso';var n=0;rs.forEach(function(r){if(r.present.indexOf(m.id)>=0)n++});return n+' de las últimas '+rs.length+' reuniones'}
+if(!rs.length)return 'Sin reuniones desde su ingreso';var n=0,e=0;rs.forEach(function(r){if(r.present.indexOf(m.id)>=0)n++;else if((r.exc||[]).indexOf(m.id)>=0)e++});var f=rs.length-n-e;return n+' de las últimas '+rs.length+' reuniones'+(e||f?' · '+e+' con aviso · '+f+' sin aviso':'')}
 function mst(msg){$('mst').textContent=msg||''}
 function show(mode){$('mmain').hidden=mode!=='list';$('mform').hidden=mode!=='meeting';$('medit').hidden=mode!=='member';window.scrollTo(0,0)}
 function sortedM(){return MB.slice().sort(function(a,b){return a.name.localeCompare(b.name,'es')})}
@@ -641,12 +644,21 @@ if(!l.length){box.appendChild(el('div',{cls:'days',text:'Aún no hay reuniones r
 l.forEach(function(r){var row=el('div',{cls:'mrow'});var nm=el('b',{text:fdl(pd(r.date))});if(r.example)nm.appendChild(el('span',{cls:'ex',text:'Ejemplo'}));
 row.appendChild(el('div',{cls:'mh'},[nm,el('span',{cls:'pill p-ok',text:r.present.length+(r.present.length===1?' presente':' presentes')})]));
 row.appendChild(el('div',{cls:'ms',text:TYPES[r.type]+(r.tema?' · '+r.tema:'')}));
+var ne=(r.exc||[]).filter(function(i){return r.present.indexOf(i)<0}).length,nf=MB.filter(function(m){return(!m.joined||r.date>=m.joined)&&r.present.indexOf(m.id)<0&&(r.exc||[]).indexOf(m.id)<0}).length;
+if(MB.length)row.appendChild(el('div',{cls:'ms',text:'Ausentes: '+ne+' con aviso · '+nf+' sin aviso'}));
+if((r.vis||[]).length)row.appendChild(el('div',{cls:'ms',text:'Visitantes ('+r.vis.length+'): '+r.vis.join(', ')}));
 var ed=el('button',{type:'button',cls:'sm',text:'Ver y editar'});ed.setAttribute('aria-label','Editar reunión del '+fd(pd(r.date)));ed.addEventListener('click',function(){openMeeting(r.id)});row.appendChild(ed);box.appendChild(row)})}
-function renderM(){renderStats();$('tabm').setAttribute('aria-pressed',tab==='m'?'true':'false');$('tabr').setAttribute('aria-pressed',tab==='r'?'true':'false');
-$('msearchw').hidden=tab!=='m';$('mcopy').hidden=tab!=='m';if(tab==='m')renderMembers();else renderMeetings();
+function visAgg(){var M={};MT.forEach(function(r){(r.vis||[]).forEach(function(n){var k=n.trim().toLowerCase();if(!k)return;var o=M[k]||(M[k]={name:n.trim(),n:0,last:''});o.n++;if(r.date>o.last){o.last=r.date;o.name=n.trim()}})});return Object.keys(M).map(function(k){return M[k]}).sort(function(a,b){return a.last<b.last?1:a.last>b.last?-1:a.name.localeCompare(b.name,'es')})}
+function renderVisitors(){var box=$('mlist');box.textContent='';var l=visAgg();box.appendChild(el('div',{cls:'ms',text:'Visitantes no son miembros y no cuentan como activos ni inactivos. Se anotan al registrar cada reunión.'}));
+if(!l.length){box.appendChild(el('div',{cls:'days',text:'Aún no hay visitantes. Agrégalos al registrar una reunión.'}));return}
+box.appendChild(el('div',{cls:'ms',style:'margin:6px 0',text:l.length+(l.length===1?' visitante distinto':' visitantes distintos')}));
+l.forEach(function(v){var row=el('div',{cls:'mrow'});row.appendChild(el('div',{cls:'mh'},[el('b',{text:v.name}),el('span',{cls:'pill p-inf',text:v.n+(v.n===1?' visita':' visitas')})]));row.appendChild(el('div',{cls:'ms',text:'Última visita: '+fd(pd(v.last))}));box.appendChild(row)})}
+function renderM(){renderStats();$('tabm').setAttribute('aria-pressed',tab==='m'?'true':'false');$('tabr').setAttribute('aria-pressed',tab==='r'?'true':'false');$('tabv').setAttribute('aria-pressed',tab==='v'?'true':'false');
+$('msearchw').hidden=tab!=='m';$('mcopy').hidden=tab!=='m';if(tab==='m')renderMembers();else if(tab==='v')renderVisitors();else renderMeetings();
 $('mex').hidden=!MB.some(function(m){return m.example})}
 $('tabm').addEventListener('click',function(){tab='m';mst('');renderM()});
 $('tabr').addEventListener('click',function(){tab='r';mst('');renderM()});
+$('tabv').addEventListener('click',function(){tab='v';mst('');renderM()});
 $('msearch').addEventListener('input',function(){if(tab==='m')renderMembers()});
 
 /* copiar lista */
@@ -658,20 +670,19 @@ var a=$('mtx');function fb(){a.style.display='block';a.value=t;a.focus();a.selec
 try{navigator.clipboard.writeText(t).then(function(){mst('Lista copiada.');a.style.display='none'},fb)}catch(e){fb()}});
 
 /* formulario de miembro */
-function openMember(id){editM=id||null;var m=id?MB.filter(function(x){return x.id===id})[0]:{name:'',phone:'',email:'',joined:iso(today()),informed:false};if(!m)return;
+function openMember(id){editM=id||null;var m=id?MB.filter(function(x){return x.id===id})[0]:{name:'',phone:'',email:'',joined:iso(today())};if(!m)return;
 var box=$('medit');box.textContent='';box.appendChild(el('h2',{text:id?'Editar miembro':'Agregar miembro',style:'font:700 1.15rem Georgia,serif;margin:0 0 10px'}));
 var card=el('div',{cls:'card'});
 function f(i,lab,ty,v,ph){return el('div',{cls:'fld'},[el('label',{for:i,text:lab}),el('input',{type:ty,id:i,value:v||'',placeholder:ph||'',autocomplete:'off'})])}
 card.appendChild(f('me-n','Nombre','text',m.name,'Nombre y apellido'));card.appendChild(f('me-p','Teléfono','tel',m.phone));card.appendChild(f('me-m','Correo (opcional)','email',m.email));card.appendChild(f('me-j','Fecha de ingreso a la Hermandad','date',m.joined));
-var ck=el('label',{cls:'ck',for:'me-i'},[el('input',{type:'checkbox',id:'me-i'}),el('span',{text:'Ausencia informada: avisó que no podrá asistir'})]);card.appendChild(ck);
 card.appendChild(el('div',{cls:'ms',text:'Sin detalles personales ni de salud.'}));
 card.appendChild(el('div',{id:'me-e',role:'alert',style:'font:.85rem system-ui,sans-serif;color:var(--ot);min-height:1.2em;margin-top:8px'}));
 var sv=el('button',{type:'button',cls:'act',text:'Guardar',style:'margin:8px 8px 0 0'}),cn=el('button',{type:'button',cls:'sm',text:'Cancelar'});card.appendChild(sv);card.appendChild(cn);
 if(id){var dl=el('button',{type:'button',cls:'sm dng',text:'Eliminar'});dl.addEventListener('click',function(){if(dl.getAttribute('data-armed')!=='1'){dl.setAttribute('data-armed','1');dl.textContent='¿Seguro? Toca otra vez';return}
-MB=MB.filter(function(x){return x.id!==id});MT.forEach(function(r){r.present=r.present.filter(function(p){return p!==id})});save();closeForm('Miembro eliminado.')});card.appendChild(dl)}
-box.appendChild(card);show('member');$('me-i').checked=!!m.informed;$('me-n').focus();
+MB=MB.filter(function(x){return x.id!==id});MT.forEach(function(r){r.present=r.present.filter(function(p){return p!==id});r.exc=(r.exc||[]).filter(function(p){return p!==id})});save();closeForm('Miembro eliminado.')});card.appendChild(dl)}
+box.appendChild(card);show('member');$('me-n').focus();
 sv.addEventListener('click',function(){var n=$('me-n').value.trim();if(!n){$('me-e').textContent='Escribe el nombre.';$('me-n').focus();return}
-var o=id?MB.filter(function(x){return x.id===id})[0]:{id:uid()};o.name=n;o.phone=$('me-p').value.trim();o.email=$('me-m').value.trim();o.joined=$('me-j').value||iso(today());o.informed=$('me-i').checked;if(!id)MB.push(o);save();closeForm(id?'Cambios guardados.':'Miembro agregado.')});
+var o=id?MB.filter(function(x){return x.id===id})[0]:{id:uid()};o.name=n;o.phone=$('me-p').value.trim();o.email=$('me-m').value.trim();o.joined=$('me-j').value||iso(today());delete o.informed;if(!id)MB.push(o);save();closeForm(id?'Cambios guardados.':'Miembro agregado.')});
 cn.addEventListener('click',function(){closeForm('')})}
 function closeForm(msg){editM=null;editR=null;show('list');renderM();mst(msg||'')}
 $('madd').addEventListener('click',function(){openMember(null)});
@@ -687,18 +698,29 @@ card.appendChild(el('div',{cls:'fld'},[el('label',{for:'mf-t',text:'Tipo de reun
 card.appendChild(el('div',{cls:'fld'},[el('label',{for:'mf-s',text:'Tema (opcional)'}),el('input',{type:'text',id:'mf-s',value:r.tema||'',placeholder:'Ej.: La humildad y el servicio en la fe',maxlength:'160',autocomplete:'off'})]));
 card.appendChild(el('div',{cls:'cnt',id:'mf-c','aria-live':'polite'}));
 var all=el('button',{type:'button',cls:'sm',text:'Marcar todos'}),none=el('button',{type:'button',cls:'sm',text:'Limpiar'});card.appendChild(all);card.appendChild(none);
-var list=el('div',{id:'mf-l',style:'margin-top:8px'});sortedM().forEach(function(m){var c=el('input',{type:'checkbox','data-id':m.id});if(r.present.indexOf(m.id)>=0)c.checked=true;list.appendChild(el('label',{cls:'ck'},[c,el('span',{text:m.name})]))});card.appendChild(list);
+var list=el('div',{id:'mf-l',style:'margin-top:8px'});sortedM().forEach(function(m){var c=el('input',{type:'checkbox','data-id':m.id});if(r.present.indexOf(m.id)>=0)c.checked=true;
+var x=el('input',{type:'checkbox','data-x':m.id,'aria-label':'Avisó que no vendría: '+m.name});if((r.exc||[]).indexOf(m.id)>=0&&!c.checked)x.checked=true;
+var xl=el('label',{cls:'xk'},[x,el('span',{text:'Avisó'})]);function sy(){xl.hidden=c.checked;if(c.checked)x.checked=false}c.addEventListener('change',sy);sy();
+list.appendChild(el('div',{cls:'mfr'},[el('label',{cls:'ck'},[c,el('span',{text:m.name})]),xl]))});card.appendChild(list);card.appendChild(el('div',{cls:'ms',style:'margin-top:6px',text:'Si no está presente y avisó que no vendría, marca "Avisó". Si no avisó, déjalo sin marcar: cuenta como falta sin aviso.'}));
+var vis=(r.vis||[]).slice();
+card.appendChild(el('h3',{text:'Visitantes (no son miembros)',style:'font:700 1rem Georgia,serif;margin:16px 0 4px'}));
+var vl=el('datalist',{id:'mf-vl'});visAgg().forEach(function(v){vl.appendChild(el('option',{value:v.name}))});card.appendChild(vl);
+var vi=el('input',{type:'text',id:'mf-vn',placeholder:'Nombre del visitante',maxlength:'80',autocomplete:'off',list:'mf-vl'}),vb=el('button',{type:'button',cls:'sm',text:'Agregar visitante',style:'margin:0'}),vbox=el('div',{id:'mf-vb'});
+card.appendChild(el('div',{cls:'fld'},[el('label',{for:'mf-vn',text:'Nombre'}),vi]));card.appendChild(vb);card.appendChild(vbox);
+function drawV(){vbox.textContent='';vis.forEach(function(n,i){var q=el('button',{type:'button',cls:'sm',text:'Quitar',style:'margin:0'});q.setAttribute('aria-label','Quitar a '+n);q.addEventListener('click',function(){vis.splice(i,1);drawV();cnt()});vbox.appendChild(el('div',{style:'display:flex;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:6px 0;font:1rem system-ui,sans-serif'},[el('span',{text:n,style:'min-width:0;overflow-wrap:anywhere'}),q]))})}
+function addV(){var n=vi.value.trim();if(!n)return;if(vis.some(function(x){return x.toLowerCase()===n.toLowerCase()})){vi.value='';return}vis.push(n);vi.value='';drawV();cnt();vi.focus()}
+vb.addEventListener('click',addV);vi.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addV()}});
 card.appendChild(el('div',{id:'mf-e',role:'alert',style:'font:.85rem system-ui,sans-serif;color:var(--ot);min-height:1.2em;margin-top:8px'}));
 var sv=el('button',{type:'button',cls:'act',text:'Guardar reunión',style:'margin:8px 8px 0 0'}),cn=el('button',{type:'button',cls:'sm',text:'Cancelar'});card.appendChild(sv);card.appendChild(cn);
 if(id){var dl=el('button',{type:'button',cls:'sm dng',text:'Eliminar reunión'});dl.addEventListener('click',function(){if(dl.getAttribute('data-armed')!=='1'){dl.setAttribute('data-armed','1');dl.textContent='¿Seguro? Toca otra vez';return}
 MT=MT.filter(function(x){return x.id!==id});save();tab='r';closeForm('Reunión eliminada.')});card.appendChild(dl)}
 box.appendChild(card);show('meeting');
-function cnt(){var n=list.querySelectorAll('input:checked').length;$('mf-c').textContent='Presentes: '+n+' de '+MB.length}cnt();
+function cnt(){var n=list.querySelectorAll('input[data-id]:checked').length,e=list.querySelectorAll('input[data-x]:checked').length;$('mf-c').textContent='Presentes: '+n+' de '+MB.length+' · Con aviso: '+e+' · Sin aviso: '+(MB.length-n-e)+(vis.length?' · Visitantes: '+vis.length:'')}cnt();drawV();
 list.addEventListener('change',cnt);
-all.addEventListener('click',function(){list.querySelectorAll('input').forEach(function(i){i.checked=true});cnt()});none.addEventListener('click',function(){list.querySelectorAll('input').forEach(function(i){i.checked=false});cnt()});
+all.addEventListener('click',function(){list.querySelectorAll('input[data-id]').forEach(function(i){i.checked=true;i.dispatchEvent(new Event('change'))});cnt()});none.addEventListener('click',function(){list.querySelectorAll('input[data-id]').forEach(function(i){i.checked=false;i.dispatchEvent(new Event('change'))});cnt()});
 sv.addEventListener('click',function(){var d=$('mf-d').value;if(!d){$('mf-e').textContent='Elige la fecha.';return}
-var pr=[];list.querySelectorAll('input:checked').forEach(function(i){pr.push(i.getAttribute('data-id'))});
-var o=id?MT.filter(function(x){return x.id===id})[0]:{id:uid()};o.date=d;o.type=$('mf-t').value;o.tema=$('mf-s').value.trim();o.present=pr;if(!id)MT.push(o);save();tab='r';closeForm('Reunión guardada: '+pr.length+(pr.length===1?' presente.':' presentes.'))});
+var pr=[],ex=[];list.querySelectorAll('input[data-id]:checked').forEach(function(i){pr.push(i.getAttribute('data-id'))});list.querySelectorAll('input[data-x]:checked').forEach(function(i){ex.push(i.getAttribute('data-x'))});
+var o=id?MT.filter(function(x){return x.id===id})[0]:{id:uid()};o.date=d;o.type=$('mf-t').value;o.tema=$('mf-s').value.trim();var pv=$('mf-vn').value.trim();if(pv&&!vis.some(function(x){return x.toLowerCase()===pv.toLowerCase()}))vis.push(pv);o.present=pr;o.exc=ex;o.vis=vis.slice();if(!id)MT.push(o);save();tab='r';closeForm('Reunión guardada: '+pr.length+(pr.length===1?' presente.':' presentes.'))});
 cn.addEventListener('click',function(){closeForm('')})}
 $('mreg').addEventListener('click',function(){openMeeting(null)});
 
